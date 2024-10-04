@@ -2,7 +2,7 @@
 
 MyAlgo6::MyAlgo6(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path>> _paths):
     AlgorithmBase(_graph, _requests, _paths) {
-    algorithm_name = "Merge";
+    algorithm_name = "ASAP";
     merge_shape.resize(graph.get_num_nodes() + 1);
     for(SDpair sdpair : requests) {
         sort(paths[sdpair].begin(), paths[sdpair].end(), [](Path &a, Path &b) {

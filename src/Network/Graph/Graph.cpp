@@ -252,7 +252,7 @@ void Graph::reserve_shape_ASAP(Shape shape) {
         if(adj_set[node1].count(node2) == 0) {
             cerr << "shape error, the next node is not connected" << endl;
             exit(1);
-        } 
+        }
     }
 
     double shape_fidelity = shape.get_fidelity(A, B, n, T, tao, F_init);
