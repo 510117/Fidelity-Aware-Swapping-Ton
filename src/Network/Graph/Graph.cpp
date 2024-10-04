@@ -214,7 +214,6 @@ void Graph::reserve_shape_ASAP(Shape shape) {
     Shape_vector nm = shape.get_node_mem_range();
     int mx_amount = 0, earliest = time_limit, lastest = 0; 
     for(int i = 0; i < (int)nm.size(); i++) {
-        int node = nm[i].first;
         map<int, int> need_amount; // time to amount
         for(pair<int, int> rng : nm[i].second) {
             int left = rng.first, right = rng.second;
