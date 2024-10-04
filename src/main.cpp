@@ -7,6 +7,7 @@
 #include "Algorithm/MyAlgo3/MyAlgo3.h"
 #include "Algorithm/MyAlgo4/MyAlgo4.h"
 #include "Algorithm/MyAlgo5/MyAlgo5.h"
+#include "Algorithm/MyAlgo6/MyAlgo6.h"
 #include "Network/PathMethod/PathMethodBase/PathMethod.h"
 #include "Network/PathMethod/Greedy/Greedy.h"
 #include "Network/PathMethod/QCAST/QCAST.h"
@@ -122,7 +123,7 @@ int main(){
     // vector<string> X_names = {"time_limit", "request_cnt", "num_nodes", "avg_memory", "tao"};
     vector<string> X_names = {"request_cnt", "time_limit", "tao", "fidelity_threshold", "avg_memory", "min_fidelity", "entangle_lambda", "swap_prob"};
     vector<string> Y_names = {"fidelity_gain", "succ_request_cnt"};
-    vector<string> algo_names = {"MyAlgo1", "MyAlgo2", "MyAlgo3", "Merge", "Linear"};
+    vector<string> algo_names = {"MyAlgo1", "MyAlgo2", "MyAlgo3", "Merge", "Linear", "ASAP"};
     // init result
 
 
@@ -248,6 +249,7 @@ int main(){
                     algorithms.emplace_back(new MyAlgo3(graph, requests, paths));
                     algorithms.emplace_back(new MyAlgo4(graph, requests, paths));
                     algorithms.emplace_back(new MyAlgo5(graph, requests, paths));
+                    algorithms.emplace_back(new MyAlgo6(graph, requests, paths));
 
 
                     #pragma omp parallel for
