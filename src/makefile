@@ -59,6 +59,10 @@ Algorithm/MyAlgo5/MyAlgo5.o: Algorithm/MyAlgo5/MyAlgo5.h Algorithm/MyAlgo5/MyAlg
 	g++ -c $(gcc_flag) Algorithm/MyAlgo5/MyAlgo5.h Algorithm/MyAlgo5/MyAlgo5.cpp config.h
 	mv MyAlgo5.o Algorithm/MyAlgo5/MyAlgo5.o
 
+Algorithm/MyAlgo6/MyAlgo6.o: Algorithm/MyAlgo6/MyAlgo6.h Algorithm/MyAlgo6/MyAlgo6.cpp config.h
+	g++ -c $(gcc_flag) Algorithm/MyAlgo6/MyAlgo6.h Algorithm/MyAlgo6/MyAlgo6.cpp config.h
+	mv MyAlgo6.o Algorithm/MyAlgo6/MyAlgo6.o
+
 Network/PathMethod/Greedy/Greedy.o: Network/PathMethod/Greedy/Greedy.h Network/PathMethod/Greedy/Greedy.cpp config.h
 	g++ -c $(gcc_flag) Network/PathMethod/Greedy/Greedy.h Network/PathMethod/Greedy/Greedy.cpp config.h
 	mv Greedy.o Network/PathMethod/Greedy/Greedy.o
