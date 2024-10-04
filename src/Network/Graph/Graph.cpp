@@ -174,7 +174,6 @@ bool Graph::check_resource_ASAP(Shape shape) {
 
     int mx_amount = 0, earliest = time_limit, lastest = 0; 
     for(int i = 0; i < (int)nm.size(); i++) {
-        int node = nm[i].first;
         map<int, int> need_amount; // time to amount
         for(pair<int, int> rng : nm[i].second) {
             int left = rng.first, right = rng.second;
@@ -235,10 +234,6 @@ void Graph::reserve_shape_ASAP(Shape shape) {
             earliest = min(earliest, t);
             lastest = max(lastest, t);
             mx_amount = max(mx_amount, amount);
-        }
-        for(auto P : need_amount) {
-            int t = P.first, amount = P.second;
-
         }
     }
     for(int i = 0; i < (int)nm.size(); i++) {
