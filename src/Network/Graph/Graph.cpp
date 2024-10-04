@@ -167,6 +167,118 @@ bool Graph::check_resource(Shape shape) {
     }
     return true;
 }
+
+bool Graph::check_resource_ASAP(Shape shape) {
+    Shape_vector nm = shape.get_node_mem_range();
+    if(shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
+
+    int mx_amount = 0, earliest = time_limit, lastest = 0; 
+    for(int i = 0; i < (int)nm.size(); i++) {
+        int node = nm[i].first;
+        map<int, int> need_amount; // time to amount
+        for(pair<int, int> rng : nm[i].second) {
+            int left = rng.first, right = rng.second;
+            if(left < 0) {
+                cerr << "the reserve time is negtive" << endl;
+                exit(1);
+            }
+            if(right >= time_limit) {
+                cerr << "the reserve time is exceed the timelimit" << endl;
+                cerr << "timelimt = " << time_limit << " reserve time = " << right << endl;
+                exit(1);
+            }
+            for(int t = left; t <= right; t++) {
+                need_amount[t]++;
+            }
+        }
+        for(auto P : need_amount) {
+            int t = P.first, amount = P.second;
+            earliest = min(earliest, t);
+            lastest = max(lastest, t);
+            mx_amount = max(mx_amount, amount);
+        }
+    }
+    for(int i = 0; i < (int)nm.size(); i++) {
+        int node = nm[i].first;
+        for(int t = earliest; t <= lastest; t++) {
+            if(nodes[node].get_memory_at(t) < mx_amount) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void Graph::reserve_shape_ASAP(Shape shape) {
+    shape.check_valid();
+    // cerr << "checked" << endl;
+    Shape_vector nm = shape.get_node_mem_range();
+    int mx_amount = 0, earliest = time_limit, lastest = 0; 
+    for(int i = 0; i < (int)nm.size(); i++) {
+        int node = nm[i].first;
+        map<int, int> need_amount; // time to amount
+        for(pair<int, int> rng : nm[i].second) {
+            int left = rng.first, right = rng.second;
+
+            if(right >= time_limit) {
+                cerr << "the reserve time is exceed the timelimit" << endl;
+                cerr << "timelimt = " << time_limit << " reserve time = " << right << endl;
+                assert(false);
+                exit(1);
+            }
+            for(int t = left; t <= right; t++) {
+                need_amount[t]++;
+            }
+        }
+        for(auto P : need_amount) {
+            int t = P.first, amount = P.second;
+            earliest = min(earliest, t);
+            lastest = max(lastest, t);
+            mx_amount = max(mx_amount, amount);
+        }
+        for(auto P : need_amount) {
+            int t = P.first, amount = P.second;
+
+        }
+    }
+    for(int i = 0; i < (int)nm.size(); i++) {
+        int node = nm[i].first;
+        for(int t = earliest; t <= lastest; t++) {
+            if(nodes[node].get_memory_at(t) < mx_amount) {
+                cerr << "node " << node << "\'s memory is not enough at time " << t << endl;
+                exit(1);
+            }
+            usage += mx_amount;
+            nodes[node].reserve_memory(t, mx_amount);
+        }
+    }
+    for(int i = 1; i < (int)nm.size(); i++) {
+        int node1 = nm[i - 1].first;
+        int node2 = nm[i].first;
+        if(adj_set[node1].count(node2) == 0) {
+            cerr << "shape error, the next node is not connected" << endl;
+            exit(1);
+        } 
+    }
+
+    double shape_fidelity = shape.get_fidelity(A, B, n, T, tao, F_init);
+    if(shape_fidelity + EPS < fidelity_threshold) {
+        cerr << "the fidelity of shape is not greater than threshold" << endl;
+        assert(false);
+        exit(1);
+    }
+    fidelity_gain += shape_fidelity;
+    succ_request_cnt++;
+
+    for(int i = 0; i < (int)boundary.size(); i++) {
+        if(shape_fidelity < boundary[i]) {
+            cnt[i] = cnt[i] + 1;
+            break;
+        }
+    }
+}
+
+
 void Graph::reserve_shape(Shape shape) {
     shape.check_valid();
     // cerr << "checked" << endl;
