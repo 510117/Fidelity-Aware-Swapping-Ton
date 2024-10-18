@@ -105,8 +105,8 @@ int main(){
 
         double swap_prob = default_setting["swap_prob"];
         double fidelity_threshold = default_setting["fidelity_threshold"];
-        int length_upper = default_setting["path_length"] + 1;
-        int length_lower = default_setting["path_length"] - 1;
+        int length_upper = default_setting["path_length"] + 2;
+        int length_lower = default_setting["path_length"] - 2;
         for(string X_name : {"entangle_lambda", "entangle_time"}) {
             map<string, double> input_parameter = default_setting;
             for(double change_value : change_parameter[X_name]) {
