@@ -9,7 +9,7 @@ import numpy
 import math
 from math import ceil
 
-RANGE = 150
+RANGE = 200
 G = nx.Graph()
 vis = {}
 
