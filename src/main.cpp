@@ -91,7 +91,7 @@ int main(){
     change_parameter["entangle_lambda"] = {0.025, 0.035, 0.045, 0.055, 0.065};
     change_parameter["entangle_times"] = {0.00025, 0.00035, 0.00045, 0.00055, 0.00065};
 
-    int round = 1;
+    int round = 50;
     vector<vector<SDpair>> default_requests(round);
 
     #pragma omp parallel for
@@ -105,8 +105,8 @@ int main(){
 
         double swap_prob = default_setting["swap_prob"];
         double fidelity_threshold = default_setting["fidelity_threshold"];
-        int length_upper = default_setting["path_length"] + 1;
-        int length_lower = default_setting["path_length"] - 1;
+        int length_upper = default_setting["path_length"] + 2;
+        int length_lower = default_setting["path_length"] - 2;
         for(string X_name : {"entangle_lambda", "entangle_time"}) {
             map<string, double> input_parameter = default_setting;
             for(double change_value : change_parameter[X_name]) {
