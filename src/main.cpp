@@ -78,7 +78,7 @@ int main(){
     default_setting["entangle_time"] = 0.00025;
 
     vector<double> entangle_times = {0.00025, 0.00035, 0.00045, 0.00055, 0.00065};
-    int round = 50;
+    int round = 1;
     vector<vector<SDpair>> default_requests(round);
 
     #pragma omp parallel for

@@ -48,7 +48,7 @@ pair<Shape, double> MyAlgo3::calculate_best_shape(int src, int dst) {
         if(best_time == -1) return {{}, 0};
         Shape shape = Shape(backtracing_shape(0, path.size() - 1, best_time, 0, path));
         // shape.print();
-        if(fabs(shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) - best) > EPS) {
+        if(fabs(shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) * path_prob - best) > EPS) {
             shape.print();
             cerr << "[" << algorithm_name << "]" << endl;
             cerr << shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) << " " << best << endl;
