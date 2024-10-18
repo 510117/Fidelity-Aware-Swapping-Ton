@@ -81,6 +81,7 @@ int main(){
     int round = 50;
     vector<vector<SDpair>> default_requests(round);
 
+    #pragma omp parallel for
     for(int r = 0; r < round; r++) {
         int num_nodes = default_setting["num_nodes"];
         int avg_memory = default_setting["avg_memory"];
