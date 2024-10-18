@@ -332,10 +332,12 @@ double Graph::path_Pr(Path path) {
     double Pr = 1;
     for(int node : path) {
         Pr *= nodes[node].get_swap_prob();
+        cerr << nodes[node].get_swap_prob() << endl;
     }
     for(int i = 1; i < (int)path.size(); i++) {
         int a = i - 1, b = i;
         Pr *= get_entangle_succ_prob(a, b);
+        cerr << get_entangle_succ_prob(a, b) << endl;
     }
     return Pr;
 }
