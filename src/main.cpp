@@ -164,7 +164,8 @@ int main(){
                 int time_limit = input_parameter["time_limit"];
                 double min_fidelity = input_parameter["min_fidelity"];
                 double max_fidelity = input_parameter["max_fidelity"];
-                // double entangle_lambda = input_parameter["entangle_lambda"];
+                double entangle_lambda = input_parameter["entangle_lambda"];
+                double entangle_time = input_parameter["entangle_time"];
                 double swap_prob = input_parameter["swap_prob"];
                 double fidelity_threshold = input_parameter["fidelity_threshold"];
                 // int length_upper, length_lower;
@@ -179,7 +180,6 @@ int main(){
                 int sum_has_path = 0;
                 #pragma omp parallel for
                 for(int r = 0; r < round; r++) {
-                    double entangle_time = input_parameter["entangle_time"];
                     string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + "_" + to_string(entangle_lambda) + ".input";
                     ofstream ofs;
                     ofs.open(file_path + "log/" + path_method->get_name() + "_" + X_name + "_in_" + to_string(change_value) + "_Round_" + to_string(r) + ".log");
