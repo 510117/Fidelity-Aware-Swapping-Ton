@@ -335,9 +335,9 @@ double Graph::path_Pr(Path path) {
         cerr << nodes[node].get_swap_prob() << endl;
     }
     for(int i = 1; i < (int)path.size(); i++) {
-        int a = i - 1, b = i;
-        Pr *= get_entangle_succ_prob(a, b);
-        cerr << get_entangle_succ_prob(a, b) << endl;
+        int node1 = path[i - 1], node2 = path[i];
+        Pr *= get_entangle_succ_prob(node1, node2);
+        cerr << get_entangle_succ_prob(node1, node2) << endl;
     }
     return Pr;
 }
