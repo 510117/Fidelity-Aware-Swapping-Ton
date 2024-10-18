@@ -105,8 +105,8 @@ int main(){
 
         double swap_prob = default_setting["swap_prob"];
         double fidelity_threshold = default_setting["fidelity_threshold"];
-        int length_upper = default_setting["path_length"] + 2;
-        int length_lower = default_setting["path_length"] - 2;
+        int length_upper = default_setting["path_length"] + 1;
+        int length_lower = default_setting["path_length"] - 1;
         for(string X_name : {"entangle_lambda", "entangle_time"}) {
             map<string, double> input_parameter = default_setting;
             for(double change_value : change_parameter[X_name]) {
@@ -180,7 +180,7 @@ int main(){
                 #pragma omp parallel for
                 for(int r = 0; r < round; r++) {
                     double entangle_time = input_parameter["entangle_time"];
-                    string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + ".input";
+                    string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + "_" + to_string(entangle_lambda) + ".input";
                     ofstream ofs;
                     ofs.open(file_path + "log/" + path_method->get_name() + "_" + X_name + "_in_" + to_string(change_value) + "_Round_" + to_string(r) + ".log");
 
