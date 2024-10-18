@@ -6,7 +6,7 @@ MyAlgo6::MyAlgo6(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path
     merge_shape.resize(graph.get_num_nodes() + 1);
     for(SDpair sdpair : requests) {
         sort(paths[sdpair].begin(), paths[sdpair].end(), [](Path &a, Path &b) {
-            return a.size() > b.size();
+            return graph.path_Pr(a) < graph.path_Pr(b);
         });
     }
 }
