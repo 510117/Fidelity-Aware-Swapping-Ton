@@ -7,6 +7,7 @@
 *.ans
 *.input
 *.eps
+*.jpg
 *.zip
 *runtime
 *cdf
