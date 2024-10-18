@@ -12,6 +12,7 @@ pair<Shape, double> MyAlgo3::calculate_best_shape(int src, int dst) {
     Shape best_shape;
     double best_fidelity = -1;
     for(Path path : paths) {
+        double path_prob = graph.path_Pr(path);
         dp.clear();
         dp.resize(path.size());
         caled.clear();
@@ -40,7 +41,7 @@ pair<Shape, double> MyAlgo3::calculate_best_shape(int src, int dst) {
             double result = solve_fidelity(0, path.size() - 1, t, 0, path);
             if(result > best) {
                 best_time = t;
-                best = result;
+                best = result * path_prob;
             }
         }
 
@@ -56,7 +57,7 @@ pair<Shape, double> MyAlgo3::calculate_best_shape(int src, int dst) {
         }
 
         if(best > best_fidelity && graph.check_resource(shape)) {
-            best_fidelity = best;
+            best_fidelity = best * path_prob;
             best_shape = shape;
         }
     }

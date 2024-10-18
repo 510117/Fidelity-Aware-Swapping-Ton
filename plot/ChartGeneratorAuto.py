@@ -11,6 +11,7 @@ class ChartGenerator:
     # data檔名 Y軸名稱 X軸名稱 Y軸要除多少(10的多少次方) Y軸起始座標 Y軸終止座標 Y軸座標間的間隔
     def __init__(self, dataName, Xlabel, Ylabel):
         filename = '../data/ans/Greedy_' + dataName
+        print("start generate", filename)
 
         if not os.path.exists(filename):
             print("file doesn't exist")
@@ -19,7 +20,6 @@ class ChartGenerator:
         with open(filename, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             
-        print("start generate", filename)
         
         
         # Ydiv, Ystart, Yend, Yinterval
@@ -166,7 +166,7 @@ class ChartGenerator:
         plt.xticks(fontsize = Xticks_fontsize)
         plt.yticks(fontsize = Yticks_fontsize)
         
-        AlgoName = ["FNPR", "UB", "FLTO", "Nesting", "Linear"]
+        AlgoName = ["FNPR", "UB", "FLTO", "Nesting", "Linear", "ASAP"]
                 
         bbox_pos = (0.7, 0.15)
         leg = plt.legend(
@@ -223,13 +223,14 @@ class ChartGenerator:
 if __name__ == "__main__":
     # data檔名 Y軸名稱 X軸名稱 Y軸要除多少(10的多少次方) Y軸起始座標 Y軸終止座標 Y軸座標間的間隔
     # ChartGenerator("numOfnodes_waitingTime.txt", "need #round", "#Request of a round", 0, 0, 25, 5)
-    Xlabels = ["request_cnt", "time_limit", "fidelity_threshold", "path_length", "avg_memory", "min_fidelity", "tao"]
+    Xlabels = ["request_cnt", "time_limit", "fidelity_threshold", "path_length", "avg_memory", "min_fidelity", "tao", "swap_prob"]
     Ylabels = ["fidelity_gain", "succ_request_cnt"]
     # Ylabels = ["fidelity_gain"]
     # vector<string> X_names = {"request_cnt", "time_limit", "fidelity_threshold", "path_length", "avg_memory", "min_fidelity"};
     # vector<string> Y_names = {"fidelity_gain", "succ_request_cnt", "utilization"};
     LabelsName = {}
     LabelsName["min_fidelity"] = "min fidelity"
+    LabelsName["swap_prob"] = "swap probablity"
     LabelsName["request_cnt"] = "\\#Requests"
     LabelsName["time_limit"] = "$|T|$"
     LabelsName["avg_memory"] = "Average Memory Limit"

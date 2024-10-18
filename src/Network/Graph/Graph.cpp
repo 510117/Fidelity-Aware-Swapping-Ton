@@ -328,6 +328,24 @@ void Graph::reserve_shape(Shape shape) {
         }
     }
 }
+double Graph::path_Pr(Path path) {
+    double Pr = 1;
+    for(int node : path) {
+        Pr *= nodes[node].get_swap_prob();
+    }
+    for(int i = 1; i < (int)path.size(); i++) {
+        int a = i - 1, b = i;
+        Pr *= get_entangle_succ_prob(a, b);
+    }
+    return Pr;
+}
+double Graph::path_Pr(Shape shape) {
+    Path path;
+    for(auto P : shape.get_node_mem_range()) {
+        path.push_back(P.first);
+    }
+    return path_Pr(path);
+}
 
 void Graph::reserve_path(Path path, int amount) {
     int src = path[0], dst = path.back();

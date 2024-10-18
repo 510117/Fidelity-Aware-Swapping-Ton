@@ -56,7 +56,6 @@ pair<Shape_vector, double> MyAlgo1::find_min_shape(int src, int dst) {
     Shape_vector best_shape;
     double best_cost = INF;
     for(Path path : paths) {
-
         dp.clear();
         dp.resize(path.size());
         par.clear();
@@ -88,7 +87,7 @@ pair<Shape_vector, double> MyAlgo1::find_min_shape(int src, int dst) {
 
         if(best < best_cost) {
             best_shape = recursion_find_shape(0, (int)path.size() - 1, best_time, path);
-            best_cost = best;
+            best_cost = best / graph.path_Pr(path);
         }
     }
 
