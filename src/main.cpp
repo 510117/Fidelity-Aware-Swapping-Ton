@@ -100,7 +100,6 @@ int main(){
             double A = 0.25, B = 0.75, tao = default_setting["tao"], T = 10, n = 2;
             string parameter = to_string(num_nodes) + " " + to_string(entangle_lambda) + " " + to_string(tao) + " " + to_string(entangle_time);
             cerr << (command + filename + " " + parameter) << endl;
-            assert(false);
             if(system((command + filename + " " + parameter).c_str()) != 0){
                 cerr<<"error:\tsystem proccess python error"<<endl;
                 exit(1);
