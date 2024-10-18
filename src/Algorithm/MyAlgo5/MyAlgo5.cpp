@@ -5,7 +5,7 @@ MyAlgo5::MyAlgo5(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path
     algorithm_name = "Linear";
     linear_shape.resize(graph.get_num_nodes() + 1);
     for(SDpair sdpair : requests) {
-        sort(paths[sdpair].begin(), paths[sdpair].end(), [](Path &a, Path &b) {
+        sort(paths[sdpair].begin(), paths[sdpair].end(), [&](Path &a, Path &b) {
             return graph.path_Pr(a) > graph.path_Pr(b);
         });
     }
