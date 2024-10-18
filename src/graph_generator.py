@@ -61,7 +61,6 @@ tao = float(sys.argv[4])
 entangle_time = float(sys.argv[5])
 
 print("======== generating graph ========", file=sys.stderr)
-print("======== generating graph ========\n")
 print("filename =", filename, file=sys.stderr)
 print("num_of_node =", num_of_node, file=sys.stderr)
 # print("min_fidelity =", min_fidelity, ", max_fidelity =", max_fidelity, file=sys.stderr)
@@ -137,7 +136,6 @@ print("num_of_edge =", num_of_edge, file=sys.stderr)
 print("avg_edge_len =", avg_l, file=sys.stderr)
 print("avg_ent_prob =", link_prob(entangle_lambda, avg_l, tao // entangle_time), file=sys.stderr)
 print("\n======== graph generate finished ! ========", file=sys.stderr)
-print("======== graph generate finished ! ========")
 
 
 # print(prob(entangle_lambda, 150))
