@@ -39,9 +39,9 @@ Shape_vector MyAlgo1::separation_oracle() {
     for(int i = 0; i < (int)requests.size(); i++) {
         int src = requests[i].first, dst = requests[i].second;
         // cerr << "[MyAlgo1] " << "path len = " << graph.get_path(src, dst).size() << endl;
-        auto result = find_min_shape(src, dst);
+        auto result = find_min_shape(src, dst, alpha[i]);
         Shape_vector shape = result.first;
-        double value = result.second + alpha[i];
+        double value = result.second;
         if(value < min_value) {
             min_shape = shape;
             min_value = value;
@@ -50,7 +50,7 @@ Shape_vector MyAlgo1::separation_oracle() {
     }
     return min_shape;
 }
-pair<Shape_vector, double> MyAlgo1::find_min_shape(int src, int dst) {
+pair<Shape_vector, double> MyAlgo1::find_min_shape(int src, int dst, double alp) {
     vector<Path> paths = get_paths(src, dst);
     
     Shape_vector best_shape;
@@ -87,7 +87,7 @@ pair<Shape_vector, double> MyAlgo1::find_min_shape(int src, int dst) {
 
         if(best < best_cost) {
             best_shape = recursion_find_shape(0, (int)path.size() - 1, best_time, path);
-            best_cost = best / graph.path_Pr(path);
+            best_cost = (best + alp) / graph.path_Pr(path);
         }
     }
 
