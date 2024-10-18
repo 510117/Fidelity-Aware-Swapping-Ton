@@ -77,39 +77,6 @@ int main(){
     default_setting["fidelity_threshold"] = 0.5;
     default_setting["entangle_time"] = 0.00025;
 
-    vector<double> entangle_times = {0.00025, 0.00035, 0.00045, 0.00055, 0.00065};
-    int round = 50;
-    vector<vector<SDpair>> default_requests(round);
-
-    #pragma omp parallel for
-    for(int r = 0; r < round; r++) {
-        int num_nodes = default_setting["num_nodes"];
-        int avg_memory = default_setting["avg_memory"];
-        // int request_cnt = default_setting["request_cnt"];
-        int time_limit = default_setting["time_limit"];
-        double min_fidelity = default_setting["min_fidelity"];
-        double max_fidelity = default_setting["max_fidelity"];
-        double entangle_lambda = default_setting["entangle_lambda"];
-        double swap_prob = default_setting["swap_prob"];
-        double fidelity_threshold = default_setting["fidelity_threshold"];
-        int length_upper = default_setting["path_length"] + 1;
-        int length_lower = default_setting["path_length"] - 1;
-
-        for(double entangle_time : entangle_times) {
-            string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + ".input";
-            string command = "python3 graph_generator.py ";
-            double A = 0.25, B = 0.75, tao = default_setting["tao"], T = 10, n = 2;
-            string parameter = to_string(num_nodes) + " " + to_string(entangle_lambda) + " " + to_string(tao) + " " + to_string(entangle_time);
-            if(system((command + filename + " " + parameter).c_str()) != 0){
-                cerr<<"error:\tsystem proccess python error"<<endl;
-                exit(1);
-            }
-            Graph graph(filename, time_limit, swap_prob, avg_memory, min_fidelity, max_fidelity, fidelity_threshold, A, B, n, T, tao);
-            default_requests[r] = generate_requests(graph, 100, length_lower, length_upper);
-        }
-    }
-
-
     map<string, vector<double>> change_parameter;
     change_parameter["request_cnt"] = {10, 30, 50, 70, 90};
     change_parameter["num_nodes"] = {40, 70, 100, 130, 160};
@@ -122,7 +89,47 @@ int main(){
     change_parameter["fidelity_threshold"] = {0.4, 0.45, 0.5, 0.55, 0.6};
     change_parameter["time_limit"] = {5, 9, 13, 17, 21};
     change_parameter["entangle_lambda"] = {0.025, 0.035, 0.045, 0.055, 0.065};
-    change_parameter["entangle_times"] = entangle_times;
+    change_parameter["entangle_times"] = {0.00025, 0.00035, 0.00045, 0.00055, 0.00065};
+
+    int round = 1;
+    vector<vector<SDpair>> default_requests(round);
+
+    #pragma omp parallel for
+    for(int r = 0; r < round; r++) {
+        int num_nodes = default_setting["num_nodes"];
+        int avg_memory = default_setting["avg_memory"];
+        // int request_cnt = default_setting["request_cnt"];
+        int time_limit = default_setting["time_limit"];
+        double min_fidelity = default_setting["min_fidelity"];
+        double max_fidelity = default_setting["max_fidelity"];
+
+        double swap_prob = default_setting["swap_prob"];
+        double fidelity_threshold = default_setting["fidelity_threshold"];
+        int length_upper = default_setting["path_length"] + 1;
+        int length_lower = default_setting["path_length"] - 1;
+        for(string X_name : {"entangle_lambda", "entangle_time"}) {
+            map<string, double> input_parameter = default_setting;
+            for(double change_value : change_parameter[X_name]) {
+                vector<map<string, map<string, double>>> result(round);
+                input_parameter[X_name] = change_value;
+                double entangle_lambda = input_parameter["entangle_lambda"];
+                double entangle_time = input_parameter["entangle_time"];
+                string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + "_" + to_string(entangle_lambda) + ".input";
+                string command = "python3 graph_generator.py ";
+                double A = 0.25, B = 0.75, tao = default_setting["tao"], T = 10, n = 2;
+                string parameter = to_string(num_nodes) + " " + to_string(entangle_lambda) + " " + to_string(tao) + " " + to_string(entangle_time);
+                if(system((command + filename + " " + parameter).c_str()) != 0){
+                    cerr<<"error:\tsystem proccess python error"<<endl;
+                    exit(1);
+                }
+                Graph graph(filename, time_limit, swap_prob, avg_memory, min_fidelity, max_fidelity, fidelity_threshold, A, B, n, T, tao);
+                default_requests[r] = generate_requests(graph, 100, length_lower, length_upper);
+            }
+        }
+    }
+
+
+
 
     // vector<string> X_names = {"time_limit", "request_cnt", "num_nodes", "avg_memory", "tao"};
     vector<string> X_names = {"request_cnt", "time_limit", "tao", "fidelity_threshold", "avg_memory", "min_fidelity", "entangle_lambda", "swap_prob"};
