@@ -57,7 +57,7 @@ pair<Shape, double> MyAlgo3::calculate_best_shape(int src, int dst) {
         }
 
         if(best > best_fidelity && graph.check_resource(shape)) {
-            best_fidelity = best * path_prob;
+            best_fidelity = best;
             best_shape = shape;
         }
     }
