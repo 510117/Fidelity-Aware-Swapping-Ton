@@ -198,7 +198,7 @@ void MyAlgo1::run() {
             // cerr << "obj = " << obj << endl;
             Shape_vector shape = separation_oracle();
             if(shape.empty()) break;
-            double q = 1;
+            double q = INF;
             for(int i = 0; i < (int)shape.size(); i++) {
                 map<int, int> need_amount; // time to amount
                 for(pair<int, int> rng : shape[i].second) {

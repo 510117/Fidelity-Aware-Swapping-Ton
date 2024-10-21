@@ -186,7 +186,7 @@ void MyAlgo2::run() {
     while(obj < 1.0) {
         Shape_vector shape = separation_oracle();
         if(shape.empty()) break;
-        double q = 1;
+        double q = INF;
         for(int i = 0; i < (int)shape.size(); i++) {
             map<int, int> need_amount; // time to amount
             for(pair<int, int> rng : shape[i].second) {
