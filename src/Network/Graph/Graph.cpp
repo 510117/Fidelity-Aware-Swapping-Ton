@@ -319,7 +319,7 @@ void Graph::reserve_shape(Shape shape) {
         exit(1);
     }
     fidelity_gain += (shape_fidelity * path_Pr(shape));
-    succ_request_cnt++;
+    succ_request_cnt += path_Pr(shape);
 
     for(int i = 0; i < (int)boundary.size(); i++) {
         if(shape_fidelity < boundary[i]) {
