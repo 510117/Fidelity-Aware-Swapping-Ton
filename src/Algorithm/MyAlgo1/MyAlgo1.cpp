@@ -214,7 +214,7 @@ void MyAlgo1::run() {
                     q = min(q, graph.get_node_memory_at(i, t) / theta);
                 }
             }
-
+            cerr << "q = " << q << endl;
             if(q <= 1e-10) break;
 
             int request_index = -1;
