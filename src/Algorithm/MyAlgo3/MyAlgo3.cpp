@@ -353,7 +353,7 @@ double MyAlgo3::cp_value(Shape shape) {
     }
 
     if(sum <= EPS) return 0;
-    return shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) / sum;
+    return shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) * graph.path_Pr(shape) / sum;
 }
 
 void MyAlgo3::run() {
