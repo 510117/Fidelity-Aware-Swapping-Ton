@@ -213,7 +213,7 @@ void MyAlgo2::run() {
             }
         }
 
-        x[request_index][shape] += q * graph.path_Pr(shape);
+        x[request_index][shape] += q;
     
         double ori = alpha[request_index];
         alpha[request_index] = alpha[request_index] * (1 + epsilon * q);

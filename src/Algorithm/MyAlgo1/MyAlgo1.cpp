@@ -191,7 +191,7 @@ void MyAlgo1::run() {
     // alpha(v) = alpha(v)(1 + eps(q / ahpla(v))
     // beta(v, t) = beta(v, t)(1 + eps(q / beta(v, t))
 
-    int round = 1;
+    int round = 3;
     while(round-- && !requests.empty()) {
         variable_initialize();
         while(obj < 1.0) {
@@ -226,7 +226,7 @@ void MyAlgo1::run() {
                 }
             }
 
-            x[request_index][shape] += q * graph.path_Pr(shape);
+            x[request_index][shape] += q;
         
             double ori = alpha[request_index];
             alpha[request_index] = alpha[request_index] * (1 + epsilon * q);
