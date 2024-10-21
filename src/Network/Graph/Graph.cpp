@@ -76,7 +76,7 @@ double Graph::get_entangle_succ_prob(int u, int v) { return entangle_succ_prob[{
 double Graph::get_fidelity_gain() { return fidelity_gain; }
 double Graph::get_fidelity_threshold() { return fidelity_threshold; }
 
-int Graph::get_succ_request_cnt() { return succ_request_cnt;}
+double Graph::get_succ_request_cnt() { return succ_request_cnt;}
 int Graph::get_usage() { return usage; }
 
 vector<double> Graph::get_boundary() { return boundary; }
@@ -262,7 +262,7 @@ void Graph::reserve_shape_ASAP(Shape shape) {
         exit(1);
     }
     fidelity_gain += (shape_fidelity * path_Pr(shape));
-    succ_request_cnt++;
+    succ_request_cnt += path_Pr(shape);
 
     for(int i = 0; i < (int)boundary.size(); i++) {
         if(shape_fidelity < boundary[i]) {

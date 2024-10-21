@@ -18,7 +18,7 @@ class Graph {
     double fidelity_gain;
     double swapping_succ_prob;
     int usage;
-    int succ_request_cnt;
+    double succ_request_cnt;
     vector<Node> nodes;
 
     vector<double> boundary, cnt;
@@ -34,7 +34,7 @@ public:
     double get_node_swap_prob(int node_id);
     int get_num_nodes();
     int get_time_limit();
-    int get_succ_request_cnt();
+    double get_succ_request_cnt();
     int get_memory_total();
     int get_usage();
 
