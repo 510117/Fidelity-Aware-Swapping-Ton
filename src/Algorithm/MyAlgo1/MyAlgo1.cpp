@@ -226,7 +226,7 @@ void MyAlgo1::run() {
                 }
             }
 
-            x[request_index][shape] += q;
+            x[request_index][shape] += q * graph.path_Pr(shape);
         
             double ori = alpha[request_index];
             alpha[request_index] = alpha[request_index] * (1 + epsilon * q);
