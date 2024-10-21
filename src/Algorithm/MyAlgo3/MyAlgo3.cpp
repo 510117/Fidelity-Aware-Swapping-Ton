@@ -335,6 +335,7 @@ Shape_vector MyAlgo3::backtracing_shape2(int left, int right, int t, int state, 
 
 double MyAlgo3::cp_value(Shape shape) {
     Shape_vector nm = shape.get_node_mem_range();
+    if(nm.empty()) return -INF;
     double sum = 0;
     for(int i = 0; i < (int)nm.size(); i++) {
         int node = nm[i].first;
@@ -352,7 +353,7 @@ double MyAlgo3::cp_value(Shape shape) {
         }
     }
 
-    if(sum <= EPS) return 0;
+    if(sum <= EPS) return -INF;
     return shape.get_fidelity(A, B, n, T, tao, graph.get_F_init()) * graph.path_Pr(shape) / sum;
 }
 
