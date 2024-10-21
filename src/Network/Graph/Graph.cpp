@@ -337,6 +337,7 @@ double Graph::path_Pr(Path path) {
         int node1 = path[i - 1], node2 = path[i];
         Pr *= get_entangle_succ_prob(node1, node2);
     }
+    cerr << Pr << endl;
     return Pr;
 }
 double Graph::path_Pr(Shape shape) {
