@@ -37,6 +37,7 @@ class ChartGenerator:
             "#0000FF",
             "#000000",
             "#900321",
+            "#FF00FF",
         ]
         # matplotlib.rcParams['text.usetex'] = True
 
@@ -133,7 +134,7 @@ class ChartGenerator:
             x[i] = float(x[i]) / Xdiv
 
         for i in range(numOfAlgo):
-            if i == 5:
+            if i == 6:
                 continue
             for j in range(numOfData):
                 y[i][j] = float(y[i][j]) / Ydiv
@@ -154,11 +155,11 @@ class ChartGenerator:
             Yinterval = 0.2
 
 
-        marker = ['x', 'v', 'o', '^', '.']
+        marker = ['x', 'v', 'o', '^', '.', '.']
 
         # for i in range(numOfAlgo - 1, -1, -1):
         for i in range(numOfAlgo):
-            if i == 5:
+            if i == 6:
                 continue
             ax1.plot(x, y[i], color = color[i], lw = 2.5, linestyle = "-", marker = marker[i], markersize = 15, markerfacecolor = "none", markeredgewidth = 2.5, zorder = -i)
         # plt.show()

@@ -70,7 +70,7 @@ int main(){
     default_setting["time_limit"] = 13;
     default_setting["avg_memory"] = 10;
     default_setting["tao"] = 0.002;
-    default_setting["path_length"] = 7;
+    default_setting["path_length"] = 6;
     default_setting["min_fidelity"] = 0.7;
     default_setting["max_fidelity"] = 0.98;
     default_setting["swap_prob"] = 0.9;
@@ -105,8 +105,8 @@ int main(){
 
         double swap_prob = default_setting["swap_prob"];
         double fidelity_threshold = default_setting["fidelity_threshold"];
-        int length_upper = default_setting["path_length"] + 2;
-        int length_lower = default_setting["path_length"] - 2;
+        int length_upper = default_setting["path_length"] + 1;
+        int length_lower = default_setting["path_length"] - 1;
         for(string X_name : {"entangle_lambda", "entangle_time"}) {
             map<string, double> input_parameter = default_setting;
             for(double change_value : change_parameter[X_name]) {
