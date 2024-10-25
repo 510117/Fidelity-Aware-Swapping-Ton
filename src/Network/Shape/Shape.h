@@ -23,6 +23,8 @@ public:
     double get_fidelity(double _A, double _B, double _n, double _T, double _tao, map<pair<int, int>, double> F_init);
     void check_valid(); // check the correctness of shape, regardless of resource and graph
     void print();
+    bool operator< (Shape &ls);
+    bool operator== (Shape &ls);
 };
 
 #endif

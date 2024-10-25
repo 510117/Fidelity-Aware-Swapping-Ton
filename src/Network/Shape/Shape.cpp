@@ -140,3 +140,11 @@ void Shape::print() {
         }
     }
 }
+
+bool Shape::operator< (Shape &ls) {
+    return node_mem_range < ls.node_mem_range;
+}
+
+bool Shape::operator== (Shape &ls) {
+    return node_mem_range == ls.node_mem_range;
+}
