@@ -329,7 +329,7 @@ void Graph::reserve_shape(Shape shape) {
     }
 }
 double Graph::path_Pr(Path path) {
-    return 1;
+    return 0.5;
     double Pr = 1;
     for(int node : path) {
         Pr *= nodes[node].get_swap_prob();
