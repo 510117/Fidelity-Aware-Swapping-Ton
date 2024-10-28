@@ -20,9 +20,10 @@ Graph::Graph(string filename, int _time_limit, double _swap_prob, int avg_memory
     adj_list.clear();
     adj_list.resize(num_nodes);
 
+    swapping_succ_prob = _swap_prob;
     for(int id = 0; id < num_nodes; id++) {
         int memory_rand;
-        double swap_prob = _swap_prob;
+        double swap_prob = swapping_succ_prob;
         graph_file >> memory_rand;
         memory_rand += avg_memory;
         nodes.push_back(Node(id, memory_rand, time_limit, swap_prob));
