@@ -30,6 +30,7 @@ Graph::Graph(string filename, int _time_limit, double _swap_prob, int avg_memory
     
     int num_edges;
     graph_file >> num_edges;
+    avg_entangle_prob = 0;
     for(int i = 0; i < num_edges; i++) {
         int v, u;
         double f_init, entangle_prob;
@@ -42,7 +43,9 @@ Graph::Graph(string filename, int _time_limit, double _swap_prob, int avg_memory
         F_init[{u, v}] = f_init;
         entangle_succ_prob[{v, u}] = entangle_prob;
         entangle_succ_prob[{u, v}] = entangle_prob;
+        avg_entangle_prob += entangle_prob;
     }
+    avg_entangle_prob /= num_edges;
 
     for(int i = 0; i < num_nodes; i++) {
         for(auto v : adj_list[i]) {
@@ -329,7 +332,7 @@ void Graph::reserve_shape(Shape shape) {
     }
 }
 double Graph::path_Pr(Path path) {
-    return pow(0.95, path.size());
+    return pow(avg_entangle_prob, path.size());
     double Pr = 1;
     for(int node : path) {
         Pr *= nodes[node].get_swap_prob();

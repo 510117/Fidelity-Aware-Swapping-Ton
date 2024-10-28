@@ -17,6 +17,7 @@ class Graph {
     double A, B, n, T, tao;
     double fidelity_gain;
     double swapping_succ_prob;
+    double avg_entangle_prob;
     int usage;
     double succ_request_cnt;
     vector<Node> nodes;
