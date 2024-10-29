@@ -70,7 +70,7 @@ int main(){
     default_setting["time_limit"] = 13;
     default_setting["avg_memory"] = 10; // 16
     default_setting["tao"] = 0.002;
-    default_setting["path_length"] = 6;
+    default_setting["path_length"] = 9;
     default_setting["min_fidelity"] = 0.7;
     default_setting["max_fidelity"] = 0.98;
     default_setting["swap_prob"] = 0.9;
@@ -91,7 +91,7 @@ int main(){
     change_parameter["entangle_lambda"] = {0.025, 0.035, 0.045, 0.055, 0.065};
     change_parameter["entangle_times"] = {0.00025, 0.00035, 0.00045, 0.00055, 0.00065};
 
-    int round = 3;
+    int round = 5;
     vector<vector<SDpair>> default_requests(round);
 
     #pragma omp parallel for

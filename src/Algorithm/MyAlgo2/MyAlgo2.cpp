@@ -286,7 +286,7 @@ void MyAlgo2::run() {
             fidelity = ((1.0 + fidelity * 9.0) / 10.0);
             if(fidelity > graph.get_fidelity_threshold()) {
                 res["fidelity_gain"] += P.second * ((1 + fidelity) / 2) * graph.path_Pr(shape);
-                res["succ_request_cnt"] += P.second;
+                res["succ_request_cnt"] += P.second * graph.path_Pr(shape);
             }
 
             for(auto id_mem : P.first) {
