@@ -72,7 +72,7 @@ pair<Shape_vector, double> MyAlgo2::find_min_shape(int src, int dst, double alp)
         int best_time = -1;
         for(int t = 0; t < time_limit; t++) {
             double result = recursion_calculate_min_shape(0, path.size() - 1, t, path);
-            result = (result + alp) / graph.path_Pr(path);
+            result = (result + alp);
             if(best > result) {
                 best = result;
                 best_time = t;
