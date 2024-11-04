@@ -9,6 +9,11 @@ MyAlgo6::MyAlgo6(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path
             return graph.path_Pr(a) < graph.path_Pr(b);
         });
     }
+    sort(requests.begin(), requests.end(), [&](SDpair &a, SDpair &b) {
+        double Pr_a = (paths[a].empty() ? 1 : graph.path_Pr(paths[a][0]));
+        double Pr_b = (paths[b].empty() ? 1 : graph.path_Pr(paths[b][0]));
+        return Pr_a < Pr_b;
+    });
 }
 
 vector<vector<pair<int, int>>> MyAlgo6::recursion_build(int length) {
@@ -79,8 +84,8 @@ void MyAlgo6::run() {
             }
             if(!cant && graph.check_resource_ASAP(shape)) {
                 graph.reserve_shape_ASAP(shape);
-                break;
             }
+            break;
         }
     }
 

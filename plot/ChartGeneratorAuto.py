@@ -122,7 +122,7 @@ class ChartGenerator:
         Xpow = 0
 
         for i in range(-10, -1, 1):
-            if i == 5:
+            if i == 6:
                 continue
             if float(x[numOfData - 1]) <= 10 ** i:
                 Xpow = (i - 2)
@@ -134,7 +134,7 @@ class ChartGenerator:
             x[i] = float(x[i]) / Xdiv
 
         for i in range(numOfAlgo):
-            if i == 6:
+            if i == 6 or i == 1:
                 continue
             for j in range(numOfData):
                 y[i][j] = float(y[i][j]) / Ydiv
@@ -144,7 +144,7 @@ class ChartGenerator:
 
         Yend = math.ceil(maxData)
         Ystart = 0
-        Yinterval = (Yend - Ystart) / 5
+        Yinterval = (Yend - Ystart) / 10
 
         if maxData > 1.1:
             Yinterval = int(math.ceil(Yinterval))
@@ -159,15 +159,16 @@ class ChartGenerator:
 
         # for i in range(numOfAlgo - 1, -1, -1):
         for i in range(numOfAlgo):
-            if i == 6:
+            if i == 6 or i == 1:
                 continue
-            ax1.plot(x, y[i], color = color[i], lw = 2.5, linestyle = "-", marker = marker[i], markersize = 15, markerfacecolor = "none", markeredgewidth = 2.5, zorder = -i)
+            ax1.plot(x, y[i], color = color[i], lw = 1.5, linestyle = "-", marker = marker[i], markersize = 7, markerfacecolor = "none", markeredgewidth = 1.5, zorder = -i)
         # plt.show()
 
         plt.xticks(fontsize = Xticks_fontsize)
         plt.yticks(fontsize = Yticks_fontsize)
         
-        AlgoName = ["FNPR", "UB", "FLTO", "Nesting", "Linear", "ASAP"]
+        # AlgoName = ["FNPR", "UB", "FLTO", "Nesting", "Linear", "ASAP"]
+        AlgoName = ["FNPR", "FLTO", "Nesting", "Linear", "ASAP"]
                 
         bbox_pos = (0.7, 0.15)
         leg = plt.legend(
