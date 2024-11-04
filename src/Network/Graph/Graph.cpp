@@ -333,7 +333,7 @@ void Graph::reserve_shape(Shape shape) {
     }
 }
 double Graph::path_Pr(Path path) {
-    return pow(sqrt(avg_entangle_prob * swapping_succ_prob), 5);
+    return pow(sqrt(avg_entangle_prob * swapping_succ_prob), path.size() / 2);
     double Pr = 1;
     for(int node : path) {
         Pr *= nodes[node].get_swap_prob();
