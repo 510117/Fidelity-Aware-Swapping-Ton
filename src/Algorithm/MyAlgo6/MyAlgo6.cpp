@@ -84,8 +84,8 @@ void MyAlgo6::run() {
             }
             if(!cant && graph.check_resource_ASAP(shape)) {
                 graph.reserve_shape_ASAP(shape);
+                break;
             }
-            break;
         }
     }
 
