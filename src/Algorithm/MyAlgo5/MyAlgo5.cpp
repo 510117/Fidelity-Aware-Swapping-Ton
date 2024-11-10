@@ -85,31 +85,31 @@ void MyAlgo5::run() {
             }
 
             if(!cant && graph.check_resource(shape, false)) {
-                graph.reserve_shape2(shape);
+                shapes.push_back(shape);
             }
             break;
         }
     }
     
-    // vector<pair<double, Shape_vector>> fidelity_shapes;
+    vector<pair<double, Shape_vector>> fidelity_shapes;
 
-    // for(Shape_vector shape : shapes) {
-    //     double fidelity = Shape(shape).get_fidelity(A, B, n, T, tao, graph.get_F_init());
-    //     fidelity_shapes.emplace_back(fidelity, shape);
-    // }
+    for(Shape_vector shape : shapes) {
+        double fidelity = Shape(shape).get_fidelity(A, B, n, T, tao, graph.get_F_init());
+        fidelity_shapes.emplace_back(fidelity, shape);
+    }
 
-    // sort(fidelity_shapes.begin(), fidelity_shapes.end());
+    sort(fidelity_shapes.begin(), fidelity_shapes.end());
 
-    // set<SDpair> used;
-    // for(auto P : fidelity_shapes) {
-    //     Shape_vector shape = P.second;
-    //     int src = shape[0].first, dst = shape.back().first;
-    //     if(used.count({src, dst})) continue;
-    //     used.insert({src, dst});
-    //     if(graph.check_resource(shape, false)) {
-    //         graph.reserve_shape2(shape);
-    //     }
-    // }
+    set<SDpair> used;
+    for(auto P : fidelity_shapes) {
+        Shape_vector shape = P.second;
+        int src = shape[0].first, dst = shape.back().first;
+        if(used.count({src, dst})) continue;
+        used.insert({src, dst});
+        if(graph.check_resource(shape, false)) {
+            graph.reserve_shape(shape);
+        }
+    }
     update_res();
     cerr << "[" << algorithm_name << "] end" << endl;
 }
