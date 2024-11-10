@@ -9,11 +9,11 @@ MyAlgo5::MyAlgo5(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path
             return graph.path_Pr(a) < graph.path_Pr(b);
         });
     }
-    // sort(requests.begin(), requests.end(), [&](SDpair &a, SDpair &b) {
-    //     double Pr_a = (paths[a].empty() ? 1 : graph.path_Pr(paths[a][0]));
-    //     double Pr_b = (paths[b].empty() ? 1 : graph.path_Pr(paths[b][0]));
-    //     return Pr_a < Pr_b;
-    // });
+    sort(requests.begin(), requests.end(), [&](SDpair &a, SDpair &b) {
+        double Pr_a = (paths[a].empty() ? 1 : graph.path_Pr(paths[a][0]));
+        double Pr_b = (paths[b].empty() ? 1 : graph.path_Pr(paths[b][0]));
+        return Pr_a < Pr_b;
+    });
 }
 
 vector<vector<pair<int, int>>> MyAlgo5::recursion_build(int length) {
@@ -84,7 +84,7 @@ void MyAlgo5::run() {
                 }
             }
 
-            if(!cant && graph.check_resource(shape)) {
+            if(!cant && graph.check_resource(shape, false)) {
                 shapes.push_back(shape);
                 break;
             }
@@ -106,8 +106,8 @@ void MyAlgo5::run() {
         int src = shape[0].first, dst = shape.back().first;
         if(used.count({src, dst})) continue;
         used.insert({src, dst});
-        if(graph.check_resource(shape)) {
-            graph.reserve_shape(shape);
+        if(graph.check_resource(shape, false)) {
+            graph.reserve_shape2(shape);
         }
     }
     update_res();

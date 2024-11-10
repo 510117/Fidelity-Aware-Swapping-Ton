@@ -141,9 +141,9 @@ int Graph::distance(int src, int dst) {
     assert(false);
 }
 
-bool Graph::check_resource(Shape shape) {
+bool Graph::check_resource(Shape shape, bool threshold = true) {
     Shape_vector nm = shape.get_node_mem_range();
-    if(shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
+    if(threshold && shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
     for(int i = 0; i < (int)nm.size(); i++) {
         int node = nm[i].first;
         map<int, int> need_amount; // time to amount
@@ -172,10 +172,9 @@ bool Graph::check_resource(Shape shape) {
     return true;
 }
 
-bool Graph::check_resource_ASAP(Shape shape) {
+bool Graph::check_resource_ASAP(Shape shape, bool threshold) {
     Shape_vector nm = shape.get_node_mem_range();
-    if(shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
-
+    if(threshold && shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
     int mx_amount = 0, earliest = time_limit, lastest = 0; 
     for(int i = 0; i < (int)nm.size(); i++) {
         map<int, int> need_amount; // time to amount
@@ -260,13 +259,10 @@ void Graph::reserve_shape_ASAP(Shape shape) {
     }
 
     double shape_fidelity = shape.get_fidelity(A, B, n, T, tao, F_init);
-    if(shape_fidelity + EPS < fidelity_threshold) {
-        cerr << "the fidelity of shape is not greater than threshold" << endl;
-        assert(false);
-        exit(1);
+    if(shape_fidelity > fidelity_threshold) {
+        fidelity_gain += (shape_fidelity * path_Pr(shape));
+        succ_request_cnt += path_Pr(shape);
     }
-    fidelity_gain += (shape_fidelity * path_Pr(shape));
-    succ_request_cnt += path_Pr(shape);
 
     for(int i = 0; i < (int)boundary.size(); i++) {
         if(shape_fidelity < boundary[i]) {
@@ -275,7 +271,6 @@ void Graph::reserve_shape_ASAP(Shape shape) {
         }
     }
 }
-
 
 void Graph::reserve_shape(Shape shape) {
     shape.check_valid();
@@ -324,6 +319,58 @@ void Graph::reserve_shape(Shape shape) {
     }
     fidelity_gain += (shape_fidelity * path_Pr(shape));
     succ_request_cnt += path_Pr(shape);
+
+    for(int i = 0; i < (int)boundary.size(); i++) {
+        if(shape_fidelity < boundary[i]) {
+            cnt[i] = cnt[i] + 1;
+            break;
+        }
+    }
+}
+void Graph::reserve_shape2(Shape shape) {
+    shape.check_valid();
+    // cerr << "checked" << endl;
+    Shape_vector nm = shape.get_node_mem_range();
+    for(int i = 0; i < (int)nm.size(); i++) {
+        int node = nm[i].first;
+        map<int, int> need_amount; // time to amount
+        for(pair<int, int> rng : nm[i].second) {
+            int left = rng.first, right = rng.second;
+
+            if(right >= time_limit) {
+                cerr << "the reserve time is exceed the timelimit" << endl;
+                cerr << "timelimt = " << time_limit << " reserve time = " << right << endl;
+                assert(false);
+                exit(1);
+            }
+            for(int t = left; t <= right; t++) {
+                need_amount[t]++;
+            }
+        }
+        for(auto P : need_amount) {
+            int t = P.first, amount = P.second;
+            if(nodes[node].get_memory_at(t) < amount) {
+                cerr << "node " << node << "\'s memory is not enough at time " << t << endl;
+                exit(1);
+            }
+            usage += amount;
+            nodes[node].reserve_memory(t, amount);
+        }
+    }
+    for(int i = 1; i < (int)nm.size(); i++) {
+        int node1 = nm[i - 1].first;
+        int node2 = nm[i].first;
+        if(adj_set[node1].count(node2) == 0) {
+            cerr << "shape error, the next node is not connected" << endl;
+            exit(1);
+        } 
+    }
+
+    double shape_fidelity = shape.get_fidelity(A, B, n, T, tao, F_init);
+    if(shape_fidelity > fidelity_threshold) {
+        fidelity_gain += (shape_fidelity * path_Pr(shape));
+        succ_request_cnt += path_Pr(shape);
+    }
 
     for(int i = 0; i < (int)boundary.size(); i++) {
         if(shape_fidelity < boundary[i]) {

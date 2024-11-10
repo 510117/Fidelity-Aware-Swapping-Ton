@@ -53,9 +53,10 @@ public:
 
     vector<double> get_boundary();
     vector<double> get_cnt();
-    bool check_resource(Shape shape);
-    bool check_resource_ASAP(Shape shape);
+    bool check_resource(Shape shape, bool threshold = true);
+    bool check_resource_ASAP(Shape shape, bool threshold = true);
     void reserve_shape(Shape shape);
+    void reserve_shape2(Shape shape);
     void reserve_shape_ASAP(Shape shape);
 
     double path_Pr(Path path);
