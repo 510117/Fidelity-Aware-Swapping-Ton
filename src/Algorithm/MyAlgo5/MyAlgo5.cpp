@@ -86,8 +86,8 @@ void MyAlgo5::run() {
 
             if(!cant && graph.check_resource(shape, false)) {
                 shapes.push_back(shape);
-                break;
             }
+            break;
         }
     }
     
