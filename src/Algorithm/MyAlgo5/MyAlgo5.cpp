@@ -106,7 +106,7 @@ void MyAlgo5::run() {
         int src = shape[0].first, dst = shape.back().first;
         if(used.count({src, dst})) continue;
         used.insert({src, dst});
-        if(graph.check_resource(shape, false)) {
+        if(graph.check_resource(shape, true)) {
             graph.reserve_shape(shape);
         }
     }
