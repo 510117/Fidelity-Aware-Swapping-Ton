@@ -5,9 +5,9 @@ MyAlgo4::MyAlgo4(Graph _graph, vector<SDpair> _requests, map<SDpair, vector<Path
     algorithm_name = "Merge";
     merge_shape.resize(graph.get_num_nodes() + 1);
     for(SDpair sdpair : requests) {
-        sort(paths[sdpair].begin(), paths[sdpair].end(), [&](Path &a, Path &b) {
-            return graph.path_Pr(a) < graph.path_Pr(b);
-        });
+        // sort(paths[sdpair].begin(), paths[sdpair].end(), [&](Path &a, Path &b) {
+        //     return graph.path_Pr(a) < graph.path_Pr(b);
+        // });
     }
     // sort(requests.begin(), requests.end(), [&](SDpair &a, SDpair &b) {
     //     double Pr_a = (paths[a].empty() ? 1 : graph.path_Pr(paths[a][0]));
