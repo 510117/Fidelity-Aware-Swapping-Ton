@@ -116,7 +116,7 @@ int main(){
                 double entangle_time = input_parameter["entangle_time"];
                 string filename = file_path + "input/round_" + to_string(r) + "_" + to_string(entangle_time) + "_" + to_string(entangle_lambda) + ".input";
                 string command = "python3 graph_generator.py ";
-                double A = 0.25, B = 0.75, tao = default_setting["tao"], T = 10, n = 2;
+                double A = 0.25, B = 0.75, tao = default_setting["tao"], T = 40 * 1e-3, n = 2;
                 // derandom
                 string parameter = to_string(num_nodes) + " " + to_string(entangle_lambda) + " " + to_string(tao) + " " + to_string(entangle_time);
                 cerr << (command + filename + " " + parameter) << endl;
