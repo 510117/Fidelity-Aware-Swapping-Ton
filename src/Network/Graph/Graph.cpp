@@ -141,7 +141,7 @@ int Graph::distance(int src, int dst) {
     assert(false);
 }
 
-bool Graph::check_resource(Shape shape, bool threshold = true) {
+bool Graph::check_resource(Shape shape, bool threshold /*= true*/) {
     Shape_vector nm = shape.get_node_mem_range();
     if(threshold && shape.get_fidelity(A, B, n, T, tao, F_init) < fidelity_threshold) return false;
     for(int i = 0; i < (int)nm.size(); i++) {
