@@ -154,6 +154,9 @@ int main(){
         }
 
         for(string X_name : X_names) {
+            if(path_method->get_name() != "Greedy" && X_name != "request_cnt")
+                continue;
+                
             map<string, double> input_parameter = default_setting;
 
             for(double change_value : change_parameter[X_name]) {
