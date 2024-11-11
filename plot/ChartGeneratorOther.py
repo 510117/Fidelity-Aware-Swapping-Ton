@@ -9,7 +9,7 @@ from matplotlib.offsetbox import AnchoredOffsetbox, TextArea, HPacker, VPacker
 
 class ChartGenerator:
     # data檔名 Y軸名稱 X軸名稱 Y軸要除多少(10的多少次方) Y軸起始座標 Y軸終止座標 Y軸座標間的間隔
-    def __init__(self, dataName, _Xlabel, _Ylabel, Xlabel, Ylabel, Xpow, Ypow, Ystart, Yend, Yinterval):
+    def __init__(self, pathName ,dataName, _Xlabel, _Ylabel, Xlabel, Ylabel, Xpow, Ypow, Ystart, Yend, Yinterval):
         filename = '../data/ans/' + dataName
 
         if not os.path.exists(filename):
@@ -58,44 +58,42 @@ class ChartGenerator:
         ax1.tick_params(bottom=True, top=True, left=True, right=True)
         ax1.tick_params(pad=10)
 
+        RIGHT_TOP = (0.7, 0.87)
+        LEFT_TOP = (0.3, 0.87)
         bbox_pos_settings = {
             'fidelity_gain':{
-                'request_cnt': (0.3, 0.8),
-                'tao': (0.7, 0.75),
-                'time_limit': (0.25, 0.8),
-                'avg_memory': (0.7, 0.7),
-                'min_fidelity': (0.25, 0.75),
-                'fidelity_threshold': (0.7, 0.8)
+                'request_cnt': LEFT_TOP,
+                'tao': RIGHT_TOP,
+                'time_limit': LEFT_TOP,
+                'avg_memory': LEFT_TOP,
+                'min_fidelity': LEFT_TOP,
+                'fidelity_threshold': RIGHT_TOP,
+                'swap_prob': LEFT_TOP,
+                'entangle_time': RIGHT_TOP
             },
             'succ_request_cnt':{
-                'request_cnt': (0.3, 0.8),
-                'tao': (0.7, 0.5),
-                'time_limit': (0.25, 0.85),
-                'avg_memory': (0.25, 0.85),
-                'min_fidelity': (0.7, 0.5),
-                'fidelity_threshold': (0.77, 0.85)
-            }
+                'request_cnt': LEFT_TOP,
+                'tao': RIGHT_TOP,
+                'time_limit': LEFT_TOP,
+                'avg_memory': LEFT_TOP,
+                'min_fidelity': LEFT_TOP,
+                'fidelity_threshold': RIGHT_TOP,
+                'swap_prob': LEFT_TOP,
+                'entangle_time': RIGHT_TOP
+            },
         }
 
         Y_interval_settings = {
             'fidelity_gain':{
-                'request_cnt': (5, 50, 5),
-                'tao': (5, 40, 5),
-                'time_limit': (5, 50, 5),
-                'avg_memory': (5, 40, 5),
-                'min_fidelity': (5, 40, 5),
-                'fidelity_threshold': (0, 40, 5)
+                'request_cnt': (5, 25, 5),
             },
             'succ_request_cnt':{
-                'request_cnt': (5, 60, 5),
-                'tao': (5, 50, 5),
-                'time_limit': (5, 50, 5),
-                'avg_memory': (5, 50, 5),
-                'min_fidelity': (5, 50, 5),
-                'fidelity_threshold': (0, 50, 5)
+                'request_cnt': (5, 40, 5),
             }
         }
 
+        if _Xlabel == "tao" or _Xlabel == "entangle_time":
+            Xpow = -4
 
         """
         Read Data to y
@@ -131,7 +129,9 @@ class ChartGenerator:
         Xdiv = float(10 ** Xpow)
         
         for i in range(num_of_data):
-            x[i] = float(x[i]) / Xdiv
+            if Xpow != 0:
+                x[i] = float(x[i]) / Xdiv
+                x[i] = round(x[i] * 10) / 10
 
         for i in range(num_of_algo):
             for j in range(num_of_data):
@@ -141,30 +141,32 @@ class ChartGenerator:
 
         """
         Start plotting
-
         """
-        per_algo_name = ["G-FNPR", "G-UB", "G-FLTO", "G-Nesting", "G-Linear"]
+        per_algo_name = ["FNPR", "UB", "FLTO", "Nesting", "Linear", "ASAP"]
+        for i in range(len(per_algo_name)):
+            per_algo_name[i] = pathName[0] + "-" + per_algo_name[i]
         algo_name = []
-        per = [0, 2, 1, 3, 4]
-        marker = ['s', 'v', 'o', '^', 'x']
+        per = [0, 2, 1, 3, 4, 5]
+        marker = ['s', 'v', 'o', '^', 'x', '1']
         color = [
             "#FF0000",  # red
             "#00FF00",  # lime
             "#0000FF",  # blue
             "#000000",  # black
             "#900321",  # brown
+            "#FF00FF",  # green
         ]
 
         for idx in range(num_of_algo):
             i = per[idx]
             if _Ylabel == "succ_request_cnt":   # skip upper bound
-                if per_algo_name[i] == "G-UB":
+                if per_algo_name[i][-2:] == "UB":
                     continue
             ax1.plot(
-                x, 
-                y[i], 
+                range(len(x)), 
+                y[i],
                 color = color[i], 
-                lw = 1.3, 
+                lw = 1, 
                 ls = "-", 
                 marker = marker[i], 
                 markersize = 8, 
@@ -187,8 +189,8 @@ class ChartGenerator:
         leg = plt.legend(
             algo_name,
             loc = 'center',
-            bbox_to_anchor = (0.7, 0.8),
-            # bbox_to_anchor = bbox_pos,
+            # bbox_to_anchor = (0.7, 0.87),
+            bbox_to_anchor = bbox_pos,
             prop = {"size": fontsize-6, "family": "Times New Roman"},
             frameon = False,
             handletextpad = 0.2,
@@ -199,14 +201,18 @@ class ChartGenerator:
             facecolor = 'None',
         )
         
-        Xlabel += self.genMultiName(Xpow)
+        unit = ""
+        if _Xlabel == "tao" or _Xlabel == "entangle_time":
+            unit = " s"
+
+        Xlabel += self.genMultiName(Xpow, unit)
         plt.subplots_adjust(top = 0.97)
         plt.subplots_adjust(left = 0.2)
         plt.subplots_adjust(right = 0.975)
         plt.subplots_adjust(bottom = 0.18)
         
         plt.yticks(np.arange(Ystart, Yend+Yinterval, step=Yinterval), fontsize=Yticks_fontsize)
-        plt.xticks(x, fontsize=Xticks_fontsize)
+        plt.xticks(ticks=range(len(x)), labels=x, fontsize=Xticks_fontsize)
         plt.ylabel(Ylabel, fontsize=Ylabel_fontsize)
         plt.xlabel(Xlabel, fontsize=Xlabel_fontsize, labelpad=500)
         ax1.yaxis.set_label_coords(-0.13, 0.5)
@@ -214,36 +220,30 @@ class ChartGenerator:
         # plt.show()
     
         pdfName = dataName[0:-4].replace('#', '')
-        plt.savefig('../data/pdf/Fie2_{}.eps'.format(pdfName)) 
+        plt.savefig('../data/pdf/Fie3_{}.eps'.format(pdfName)) 
         plt.savefig('../data/pdf/{}.jpg'.format(pdfName)) 
         # Xlabel = Xlabel.replace(' (%)','')
         # Xlabel = Xlabel.replace('# ','')
         # Ylabel = Ylabel.replace('# ','')
         plt.close()
 
-    def genMultiName(self, multiple):
+    def genMultiName(self, multiple, unit):
         if multiple == 0:
             return str()
         else:
-            return "($" + "10" + "^{" + str(multiple) + "}" + "$)"
+            return " ($" + "10" + "^{" + str(multiple) + "}" + "$" + unit + ")"
 
 if __name__ == "__main__":
     # data檔名 Y軸名稱 X軸名稱 Y軸要除多少(10的多少次方) Y軸起始座標 Y軸終止座標 Y軸座標間的間隔
     # ChartGenerator("numOfnodes_waitingTime.txt", "need #round", "#Request of a round", 0, 0, 25, 5)
-    Xlabels = ["request_cnt", "time_limit", "tao", "fidelity_threshold", "avg_memory", "min_fidelity"]
+    Xlabels = ["request_cnt"]
     Ylabels = ["fidelity_gain", "succ_request_cnt"]
-    PathNames = ["Greedy"]
+    PathNames = ["Greedy", "QCAST", "REPS"]
 
     LabelsName = {}
-    # LabelsName["num_nodes"] = "#Nodes"
-    LabelsName["request_cnt"] = "$\#$Request"
-    LabelsName["time_limit"] = "$|T|$"
-    LabelsName["avg_memory"] = "Average Memory Limit"
-    LabelsName["tao"] = "$\\it{\\tau}$"
+    LabelsName["request_cnt"] = "$\#$Requests"
     LabelsName["fidelity_gain"] = "Expected Fidelity Sum"
     LabelsName["succ_request_cnt"] = "$\#$Accepted Requests"
-    LabelsName["fidelity_threshold"] = "Fidelity Threshold"
-    LabelsName["min_fidelity"] = "Minimum Initial Fidelity"
 
     for Path in PathNames:
         for Xlabel in Xlabels:
@@ -251,18 +251,7 @@ if __name__ == "__main__":
                 dataFileName = Path + '_' + Xlabel + '_' + Ylabel + '.ans'
                 if Xlabel == "request_cnt":
                     (Ystart, Yend, Yinternal) = (5, 30, 5)
-                if Xlabel == "time_limit":
-                    (Ystart, Yend, Yinternal) = (5, 30, 5)
-                if Xlabel == "tao":
-                    (Ystart, Yend, Yinternal) = (5, 30, 5)
-                if Xlabel == "fidelity_threshold":
-                    (Ystart, Yend, Yinternal) = (5, 30, 5)
-                if Xlabel == "avg_memory":
-                    (Ystart, Yend, Yinternal) = (5, 30, 5)
-                if Xlabel == "min_fidelity":
-                    (Ystart, Yend, Yinternal) = (5, 30, 5)
-
-                ChartGenerator(dataFileName, Xlabel, Ylabel, LabelsName[Xlabel], LabelsName[Ylabel], 0, 0, Ystart, Yend, Yinternal)
+                ChartGenerator(Path, dataFileName, Xlabel, Ylabel, LabelsName[Xlabel], LabelsName[Ylabel], 0, 0, Ystart, Yend, Yinternal)
 
     # Xlabel
     # 0 #RequestPerRound
